@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/estilos.css')}}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.5.0/dist/css/bootstrap.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/">Inicio</a>
+            <a href="/login">Ingresar</a>
+        </nav>
+        <section class="textos-header">
+            <h1>Bienvenido al módulo de información de programas de la Universidad de Cundinamarca</h1>
+            <h2>A continuación encontrarás nuestros programas disponibles</h2>
+        </section>
+        <div class="wave" style="height: 150px; overflow: hidden;"><svg viewBox="0 0 500 150" preserveAspectRatio="none" style="height: 100%; width: 100%;"><path d="M0.00,50.10 C187.36,208.58 349.20,-50.10 500.00,50.10 L500.00,150.33 L0.00,150.33 Z" style="stroke: none; fill: #fff;"></path></svg></div>
+    </header>
+
+    <main>
+        <section class="contenedor sobre-nosotros">
+            <h2 class="titulo">Nuestros Programas academicos</h2>
+            <div class="contenedor-sobre-nosotros">
+                <div class="contenido-textos">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Título</th>
+                                    <th>Nivel de Formación</th>
+                                    <th>Metodología</th>
+                                    <th>Créditos</th>
+                                    <th>Duración Estimada</th>
+                                    <th>Misión</th>
+                                    <th>Visión</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for programa in programas %}
+                                
+                                <tr>
+                                    <h3><span></span>{{ programa.nombre}}</h3>
+                                    <td>{{ programa.titulo }}</td>
+                                    <td>{{ programa.nivelF }}</td>
+                                    <td>{{ programa.metodologia }}</td>
+                                    <td>{{ programa.creditos }}</td>
+                                    <td>{{ programa.duracionE }}</td>
+                                    <td>{{ programa.mision }}</td>
+                                    <td>{{ programa.vision }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="contenedor-footer">
+            <div class="content-foo">
+                <h4>Funciones</h4>
+                <p><a href="/">Inicio</a></p>
+                <p><a href="/login">Ingresar</a></p>
+            </div>
+            <div class="content-foo">
+                <h4>Teléfono de contacto</h4>
+                <p>(+57) 301 5359537</p>
+                <p>(+57) 300 4039815</p>
+            </div>
+            <div class="content-foo">
+                <h4>Ubicación</h4>
+                <p>Villa De San Diego De Ubaté</p>
+            </div>
+            <div class="content-foo">
+                <h4>Equipo</h4>
+                <p><a href="https://linktr.ee/LuisCarlosRinconGordo">Luis Carlos Rincón</a></p>
+                <p><a href="https://linktr.ee/ThePolanco">Jeison Stiven Polanco</a></p>
+            </div>
+        </div>
+        <h2 class="titulo-final">&copy; Udec-Soft | UDEC</h2>
+    </footer>
+
+    <!-- Agrega el enlace al archivo JavaScript de Bootstrap al final del cuerpo -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.5.0/dist/js/bootstrap.min.js"></script>
+</body>
+</html>

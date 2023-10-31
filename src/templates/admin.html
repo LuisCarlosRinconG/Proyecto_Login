@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/estilos.css')}}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.5.0/dist/css/bootstrap.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/">Salir</a>
+        </nav>
+        <section class="textos-header">
+            <h1>Bienvenido al módulo de administración de programas de la Universidad de Cundinamarca</h1>
+            <h2>A continuación puedes editar nuestros programas disponibles</h2>
+        </section>
+        <div class="wave" style="height: 150px; overflow: hidden;"><svg viewBox="0 0 500 150" preserveAspectRatio="none" style="height: 100%; width: 100%;"><path d="M0.00,50.10 C187.36,208.58 349.20,-50.10 500.00,50.10 L500.00,150.33 L0.00,150.33 Z" style="stroke: none; fill: #fff;"></path></svg></div>
+    </header>
+
+    <div class="container" style="display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100vh;">
+        <h1 class="display-4">Formulario de Programa</h1>
+        <form method="POST" action="/guardar_programas">
+            <div class="row mb-3">
+                <label for="nombre" class="col-sm-2 col-form-label">Nombre:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="nombre" id="nombre" required>
+                </div>
+            </div>
+    
+            <div class="row mb-3">
+                <label for="titulo" class="col-sm-2 col-form-label">Título:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="titulo" id="titulo" required>
+                </div>
+            </div>
+    
+            <div class="row mb-3">
+                <label for="nivelF" class="col-sm-2 col-form-label">Nivel de Formación:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="nivelF" id="nivelF" required>
+                </div>
+            </div>
+    
+            <div class="row mb-3">
+                <label for="metodologia" class="col-sm-2 col-form-label">Metodología:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="metodologia" id="metodologia" required>
+                </div>
+            </div>
+    
+            <div class="row mb-3">
+                <label for="creditos" class="col-sm-2 col-form-label">Créditos:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="creditos" id="creditos" required>
+                </div>
+            </div>
+    
+            <div class="row mb-3">
+                <label for="duracionE" class="col-sm-2 col-form-label">Duración Estimada:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="duracionE" id="duracionE" required>
+                </div>
+            </div>
+    
+            <div class="row mb-3">
+                <label for="mision" class="col-sm-2 col-form-label">Misión:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="mision" id="mision" required>
+                </div>
+            </div>
+    
+            <div class="row mb-3">
+                <label for="vision" class="col-sm-2 col-form-label">Visión:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="vision" id="vision" required>
+                </div>
+            </div>
+    
+            <div class="row mb-3">
+                <div class="col-sm-10 offset-sm-2">
+                    <button type="submit" class="btn btn-primary">Guardar Programa</button>
+                </div>
+            </div>
+        </form>
+
+        <h2>* Visualización de Programas </h2>
+        
+        <div class="container">
+            <h2>Editar Programas</h2>
+            {% for programa in programas %}
+            <form action="/editar_programa/{{ programa.nombre }}" method="post" class="border p-4 my-3">
+                <div class="form-group">
+                    <label for="nombre">Nombre:</label><br>
+                    <input type="text" name="nombre" value="{{ programa.nombre }}" class="form-control" required>
+                </div>
+        
+                <div class="form-group">
+                    <label for="titulo">Título:</label><br>
+                    <input type="text" name="titulo" value="{{ programa.titulo }}" class="form-control" required>
+                </div>
+        
+                <div class="form-group">
+                    <label for="nivelF">Nivel de Formación:</label><br>
+                    <input type="text" name="nivelF" value="{{ programa.nivelF }}" class="form-control" required>
+                </div>
+        
+                <div class="form-group">
+                    <label for="metodologia">Metodología:</label><br>
+                    <input type="text" name="metodologia" value="{{ programa.metodologia }}" class="form-control" required>
+                </div>
+        
+                <div class="form-group">
+                    <label for="creditos">Créditos:</label><br>
+                    <input type="text" name="creditos" value="{{ programa.creditos }}" class="form-control" required>
+                </div>
+        
+                <div class="form-group">
+                    <label for="duracionE">Duración Estimada:</label><br>
+                    <input type="text" name="duracionE" value="{{ programa.duracionE }}" class="form-control" required>
+                </div>
+        
+                <div class="form-group">
+                    <label for="mision">Misión:</label><br>
+                    <textarea name="mision" class="form-control" required>{{ programa.mision }}</textarea>
+                </div>
+        
+                <div class="form-group">
+                    <label for="vision">Visión:</label><br>
+                    <textarea name="vision" class="form-control" required>{{ programa.vision }}</textarea>
+                </div>
+        
+                <button type="submit" class="btn btn-primary">Actualizar</button>
+        
+                <!-- Enlace de eliminación -->
+                <a href="{{url_for('eliminar', nombre_programa=programa.nombre)}}" onclick="return confirm('¿Está seguro de eliminar el programa {{programa.nombre}}?')" class="btn btn-danger">Eliminar</a>
+        
+            </form>
+            {% endfor %}
+        </div>
+</div>
+    <footer>
+        <div class="contenedor-footer">
+            <div class="content-foo">
+                <h4>Funciones</h4>
+                <p><a href="/">Inicio</a></p>
+                <p><a href="/login">Ingresar</a></p>
+            </div>
+            <div class="content-foo">
+                <h4>Teléfono de contacto</h4>
+                <p>(+57) 301 5359537</p>
+                <p>(+57) 300 4039815</p>
+            </div>
+            <div class="content-foo">
+                <h4>Ubicación</h4>
+                <p>Villa De San Diego De Ubaté</p>
+            </div>
+            <div class="content-foo">
+                <h4>Equipo</h4>
+                <p><a href="https://linktr.ee/LuisCarlosRinconGordo">Luis Carlos Rincón</a></p>
+                <p><a href="https://linktr.ee/ThePolanco">Jeison Stiven Polanco</a></p>
+            </div>
+        </div>
+        <h2 class="titulo-final">&copy; Udec-Soft | UDEC</h2>
+    </footer>
+
+    <!-- Agrega el enlace al archivo JavaScript de Bootstrap al final del cuerpo -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.5.0/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
