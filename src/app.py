@@ -1,50 +1,78 @@
-from flask import Flask, redirect, render_template, request, url_for
-from config import *
+from flask import Flask, render_template, request, redirect, url_for, session, flash
+from config import Conexion
 from programa import Programa
-
 
 con_bd = Conexion()
 
 app = Flask(__name__)
 
+# Configuración de la clave secreta para sesiones
+app.secret_key = 'tu_clave_secreta'
+
 @app.route('/admin')
 def admin():
-    programas = con_bd['Programas']
-    ProgramasRegistrados=programas.find()
-    return render_template('admin.html', programas = ProgramasRegistrados)
+    if 'email' in session:
+        programas = con_bd['Programas']
+        ProgramasRegistrados = programas.find()
+        return render_template('admin.html', programas=ProgramasRegistrados)
+    else:
+        return redirect(url_for('login'))
 
 @app.route('/')
 def index():
     programas = con_bd['Programas']
-    ProgramasRegistrados=programas.find()
-    return render_template('index.html', programas = ProgramasRegistrados)
-    
-@app.route('/login')
+    ProgramasRegistrados = programas.find()
+    return render_template('index.html', programas=ProgramasRegistrados)
+
+# Ruta para el inicio de sesión
+@app.route('/login', methods=['GET', 'POST'])
 def login():
+    usuarios = con_bd['Usuarios']
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+        
+        # Consulta la base de datos para verificar las credenciales
+        user_data = usuarios.find_one({'email': email, 'password': password})
+
+        if user_data:
+            # Almacenar el nombre de usuario en la sesión
+            session['email'] = email
+            return redirect(url_for('admin'))
+        else:
+            flash('Credenciales incorrectas. Inténtelo de nuevo.', 'error')
+    
     return render_template('login.html')
 
+@app.route('/logout')
+def logout():
+    # Eliminar el nombre de usuario de la sesión al cerrar sesión
+    session.pop('email', None)
+    return redirect(url_for('login'))
 
 
-
-@app.route('/guardar_programas', methods = ['POST'])
+@app.route('/guardar_programas', methods=['POST'])
 def agregarPrograma():
-    programas = con_bd['Programas']
-    nombre = request.form['nombre']
-    titulo = request.form['titulo']
-    nivelF= request.form['nivelF']
-    metodologia = request.form['metodologia']
-    creditos = request.form['creditos']
-    duracionE = request.form['duracionE']
-    mision = request.form['mision']
-    vision = request.form['vision']
+    if 'email' in session:  # Verificar si el usuario está autenticado
+        programas = con_bd['Programas']
+        nombre = request.form['nombre']
+        titulo = request.form['titulo']
+        nivelF = request.form['nivelF']
+        metodologia = request.form['metodologia']
+        creditos = request.form['creditos']
+        duracionE = request.form['duracionE']
+        mision = request.form['mision']
+        vision = request.form['vision']
 
-    if nombre and titulo and nivelF and metodologia and creditos and duracionE and mision and vision:
-        programa = Programa(nombre, titulo, nivelF, metodologia, creditos, duracionE, mision, vision)
-        #insert_one para crear un documento en Mongo
-        programas.insert_one(programa.formato_doc())
-        return redirect(url_for('admin'))
+        if nombre and titulo and nivelF and metodologia and creditos and duracionE and mision and vision:
+            programa = Programa(nombre, titulo, nivelF, metodologia, creditos, duracionE, mision, vision)
+            # insert_one para crear un documento en Mongo
+            programas.insert_one(programa.formato_doc())
+            return redirect(url_for('admin'))
+        else:
+            return "Error"
     else:
-        return "Error"
+        return redirect(url_for('login'))
     
 
 @app.route('/eliminar_programa/<string:nombre_programa>')
